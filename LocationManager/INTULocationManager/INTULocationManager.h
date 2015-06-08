@@ -44,6 +44,19 @@ FOUNDATION_EXPORT const unsigned char INTULocationManagerVersionString[];
 /** Returns the singleton instance of this class. */
 + (instancetype)sharedInstance;
 
+/** The instance of CLLocationManager encapsulated by this class. */
+@property (nonatomic, strong) CLLocationManager *locationManager;
+/** The most recent current location, or nil if the current location is unknown, invalid, or stale. */
+@property (nonatomic, strong) CLLocation *currentLocation;
+/** Whether or not the CLLocationManager is currently sending location updates. */
+@property (nonatomic, assign) BOOL isUpdatingLocation;
+/** Whether an error occurred during the last location update. */
+@property (nonatomic, assign) BOOL updateFailed;
+
+// An array of pending location requests in the form:
+// @[ INTULocationRequest *locationRequest1, INTULocationRequest *locationRequest2, ... ]
+@property (nonatomic, strong) NSMutableArray *locationRequests;
+
 /**
  Asynchronously requests the current location of the device using location services.
  
