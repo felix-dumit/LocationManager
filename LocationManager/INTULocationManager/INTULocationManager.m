@@ -45,6 +45,18 @@
 
 @interface INTULocationManager () <CLLocationManagerDelegate, INTULocationRequestDelegate>
 
+/** The instance of CLLocationManager encapsulated by this class. */
+@property (nonatomic, strong) CLLocationManager *locationManager;
+/** The most recent current location, or nil if the current location is unknown, invalid, or stale. */
+@property (nonatomic, strong) CLLocation *currentLocation;
+/** Whether or not the CLLocationManager is currently sending location updates. */
+@property (nonatomic, assign) BOOL isUpdatingLocation;
+/** Whether an error occurred during the last location update. */
+@property (nonatomic, assign) BOOL updateFailed;
+
+// An array of pending location requests in the form:
+// @[ INTULocationRequest *locationRequest1, INTULocationRequest *locationRequest2, ... ]
+@property (nonatomic, strong) __INTU_GENERICS(NSMutableArray, INTULocationRequest *) *locationRequests;
 
 @end
 
@@ -326,7 +338,7 @@ static id _sharedInstance;
     CLLocation *mostRecentLocation = self.currentLocation;
     
     // Keep a separate array of location requests to complete to avoid modifying the locationRequests property while iterating over it
-    NSMutableArray *locationRequestsToComplete = [NSMutableArray array];
+    __INTU_GENERICS(NSMutableArray, INTULocationRequest *) *locationRequestsToComplete = [NSMutableArray array];
     
     for (INTULocationRequest *locationRequest in self.locationRequests) {
         if (locationRequest.hasTimedOut) {
@@ -368,7 +380,7 @@ static id _sharedInstance;
 - (void)completeAllLocationRequests
 {
     // Iterate through a copy of the locationRequests array to avoid modifying the same array we are removing elements from
-    NSArray *locationRequests = [self.locationRequests copy];
+    __INTU_GENERICS(NSArray, INTULocationRequest *) *locationRequests = [self.locationRequests copy];
     for (INTULocationRequest *locationRequest in locationRequests) {
         [self completeLocationRequest:locationRequest];
     }
