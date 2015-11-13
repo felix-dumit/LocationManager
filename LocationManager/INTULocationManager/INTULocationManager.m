@@ -45,21 +45,6 @@
 
 @interface INTULocationManager () <CLLocationManagerDelegate, INTULocationRequestDelegate>
 
-/** The instance of CLLocationManager encapsulated by this class. */
-@property (nonatomic, strong) CLLocationManager *locationManager;
-/** The most recent current location, or nil if the current location is unknown, invalid, or stale. */
-@property (nonatomic, strong) CLLocation *currentLocation;
-/** Whether or not the CLLocationManager is currently monitoring significant location changes. */
-@property (nonatomic, assign) BOOL isMonitoringSignificantLocationChanges;
-/** Whether or not the CLLocationManager is currently sending location updates. */
-@property (nonatomic, assign) BOOL isUpdatingLocation;
-/** Whether an error occurred during the last location update. */
-@property (nonatomic, assign) BOOL updateFailed;
-
-// An array of active location requests in the form:
-// @[ INTULocationRequest *locationRequest1, INTULocationRequest *locationRequest2, ... ]
-@property (nonatomic, strong) __INTU_GENERICS(NSArray, INTULocationRequest *) *locationRequests;
-
 @end
 
 

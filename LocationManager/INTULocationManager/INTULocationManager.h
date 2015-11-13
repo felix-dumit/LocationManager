@@ -34,6 +34,8 @@ FOUNDATION_EXPORT const unsigned char INTULocationManagerVersionString[];
 
 __INTU_ASSUME_NONNULL_BEGIN
 
+@class INTULocationRequest;
+
 /**
  An abstraction around CLLocationManager that provides a block-based asynchronous API for obtaining the device's location.
  INTULocationManager automatically starts and stops system location services as needed to minimize battery drain.
@@ -50,14 +52,16 @@ __INTU_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) CLLocationManager *locationManager;
 /** The most recent current location, or nil if the current location is unknown, invalid, or stale. */
 @property (nonatomic, strong) CLLocation *currentLocation;
+/** Whether or not the CLLocationManager is currently monitoring significant location changes. */
+@property (nonatomic, assign) BOOL isMonitoringSignificantLocationChanges;
 /** Whether or not the CLLocationManager is currently sending location updates. */
 @property (nonatomic, assign) BOOL isUpdatingLocation;
 /** Whether an error occurred during the last location update. */
 @property (nonatomic, assign) BOOL updateFailed;
 
-// An array of pending location requests in the form:
+// An array of active location requests in the form:
 // @[ INTULocationRequest *locationRequest1, INTULocationRequest *locationRequest2, ... ]
-@property (nonatomic, strong) NSMutableArray *locationRequests;
+@property (nonatomic, strong) __INTU_GENERICS(NSArray, INTULocationRequest *) *locationRequests;
 
 /**
  Asynchronously requests the current location of the device using location services.
